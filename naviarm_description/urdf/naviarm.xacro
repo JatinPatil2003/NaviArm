@@ -3,8 +3,6 @@
 
     <xacro:include filename="$(find autoserve_description)/urdf/autoserve.xacro" />
 
-    <!-- <xacro:include filename="$(find xarm_description)/urdf/xarm_device.urdf.xacro" /> -->
-
     <xacro:include filename="$(find xarm_description)/urdf/xarm_device_macro.xacro" />
 
     <xacro:xarm_device
@@ -21,13 +19,14 @@
         attach_xyz="0 0 0.803"
         attach_rpy="0 0 0"
         kinematics_suffix=""
-        ros2_control_plugin="uf_robot_hardware/UFRobotSystemHardware"
+        ros2_control_plugin="gazebo_ros2_control/GazeboSystem"
         ros2_control_params=""
+        load_gazebo_plugin="true"
         add_gripper="false"
         add_vacuum_gripper="true"
         add_bio_gripper="false"
-        add_realsense_d435i="false"
-        add_d435i_links="false"
+        add_realsense_d435i="true"
+        add_d435i_links="true"
         add_other_geometry="false"
         geometry_type=""
         geometry_mass="0.0"

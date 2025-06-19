@@ -6,6 +6,7 @@ from launch.actions import (
     DeclareLaunchArgument,
     IncludeLaunchDescription,
     SetEnvironmentVariable,
+    TimerAction
 )
 from launch.substitutions import (
     Command,
@@ -52,7 +53,8 @@ def generate_launch_description():
     start_gazebo_server = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(gazebo_ros_dir, "launch", "gzserver.launch.py")
-        )
+        ),
+        launch_arguments={"verbose": "true"}.items()
     )
 
     start_gazebo_client = IncludeLaunchDescription(
@@ -73,12 +75,15 @@ def generate_launch_description():
         output="screen",
     )
 
+    delayed_spawner = TimerAction(period=10.0, actions=[spawn_robot])
+
+
     return LaunchDescription(
         [
             env_var,
             start_gazebo_server,
             start_gazebo_client,
-            # robot_state_publisher_node,
-            # spawn_robot,
+            robot_state_publisher_node,
+            delayed_spawner,
         ]
     )
