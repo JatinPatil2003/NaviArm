@@ -15,7 +15,7 @@ from launch_ros.parameter_descriptions import ParameterValue
 
 
 def generate_launch_description():
-    autoserve_description_dir = get_package_share_directory("autoserve_description")
+    naviarm_description_dir = get_package_share_directory("naviarm_description")
 
     robot_description_content = Command(
         [
@@ -23,9 +23,9 @@ def generate_launch_description():
             " ",
             PathJoinSubstitution(
                 [
-                    FindPackageShare("autoserve_description"),
+                    FindPackageShare("naviarm_description"),
                     "urdf",
-                    "autoserve.xacro",
+                    "naviarm.xacro",
                 ]
             ),
         ]
@@ -47,7 +47,7 @@ def generate_launch_description():
         executable="rviz2",
         name="rviz2",
         output="screen",
-        arguments=["-d", os.path.join(autoserve_description_dir, "rviz", "display.rviz")],
+        arguments=["-d", os.path.join(naviarm_description_dir, "rviz", "display.rviz")],
     )
 
     return LaunchDescription(

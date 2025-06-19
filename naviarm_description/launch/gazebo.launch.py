@@ -20,13 +20,13 @@ from launch_ros.parameter_descriptions import ParameterValue
 
 
 def generate_launch_description():
-    autoserve_description_dir = get_package_share_directory("autoserve_description")
-    autoserve_description_share = os.path.join(
-        get_package_prefix("autoserve_description"), "share"
+    naviarm_description_dir = get_package_share_directory("naviarm_description")
+    naviarm_description_share = os.path.join(
+        get_package_prefix("naviarm_description"), "share"
     )
     gazebo_ros_dir = get_package_share_directory("gazebo_ros")
 
-    env_var = SetEnvironmentVariable("GAZEBO_MODEL_PATH", autoserve_description_share)
+    env_var = SetEnvironmentVariable("GAZEBO_MODEL_PATH", naviarm_description_share)
 
     robot_description_content = Command(
         [
@@ -34,9 +34,9 @@ def generate_launch_description():
             " ",
             PathJoinSubstitution(
                 [
-                    FindPackageShare("autoserve_description"),
+                    FindPackageShare("naviarm_description"),
                     "urdf",
-                    "autoserve.xacro",
+                    "naviarm.xacro",
                 ]
             ),
         ]
@@ -66,7 +66,7 @@ def generate_launch_description():
         executable="spawn_entity.py",
         arguments=[
             "-entity",
-            "autoserve",
+            "naviarm",
             "-topic",
             "robot_description",
         ],
@@ -78,7 +78,7 @@ def generate_launch_description():
             env_var,
             start_gazebo_server,
             start_gazebo_client,
-            robot_state_publisher_node,
-            spawn_robot,
+            # robot_state_publisher_node,
+            # spawn_robot,
         ]
     )

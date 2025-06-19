@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<robot name="naviarm" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:include filename="$(find autoserve_description)/urdf/autoserve.xacro" />
+
+    <!-- <xacro:include filename="$(find xarm_description)/urdf/xarm_device.urdf.xacro" /> -->
+
+    <xacro:include filename="$(find xarm_description)/urdf/xarm_device_macro.xacro" />
+
+    <xacro:xarm_device
+        dof="7"
+        robot_type="xarm"
+        prefix=""
+        hw_ns="xarm"
+        limited="false"
+        effort_control="false"
+        velocity_control="false"
+        model1300="true"
+        robot_sn=""
+        attach_to="base_footprint"
+        attach_xyz="0 0 0.803"
+        attach_rpy="0 0 0"
+        kinematics_suffix=""
+        ros2_control_plugin="uf_robot_hardware/UFRobotSystemHardware"
+        ros2_control_params=""
+        add_gripper="false"
+        add_vacuum_gripper="true"
+        add_bio_gripper="false"
+        add_realsense_d435i="false"
+        add_d435i_links="false"
+        add_other_geometry="false"
+        geometry_type=""
+        geometry_mass="0.0"
+        geometry_height="0.0"
+        geometry_radius="0.0"
+        geometry_length="0.0"
+        geometry_width="0.0"
+        geometry_mesh_filename=""
+        geometry_mesh_origin_xyz="0 0 0"
+        geometry_mesh_origin_rpy="0 0 0"
+        geometry_mesh_tcp_xyz="0 0 0"
+        geometry_mesh_tcp_rpy="0 0 0" />
+
+
+</robot>
