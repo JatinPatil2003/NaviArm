@@ -2,3 +2,7 @@
 	path = AutoServe
 	url = git@github.com:JatinPatil2003/AutoServe.git
 	branch = naviarm
+[submodule "XARM"]
+	path = XARM
+	url = git@github.com:JatinPatil2003/XARM.git
+	branch = naviarm
