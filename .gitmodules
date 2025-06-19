@@ -1,0 +1,4 @@
+[submodule "AutoServe"]
+	path = AutoServe
+	url = git@github.com:JatinPatil2003/AutoServe.git
+	branch = naviarm
