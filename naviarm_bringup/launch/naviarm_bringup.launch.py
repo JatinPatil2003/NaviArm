@@ -257,7 +257,7 @@ def launch_setup(context, *args, **kwargs):
         PythonLaunchDescriptionSource(
             os.path.join(gazebo_ros_dir, "launch", "gzserver.launch.py"),
         ),
-        launch_arguments={"world": world}.items(),
+        launch_arguments={"world": world, 'verbose': 'false'}.items(),
     )
 
     start_gazebo_client = IncludeLaunchDescription(
@@ -292,12 +292,22 @@ def launch_setup(context, *args, **kwargs):
         arguments=["xarm7_traj_controller", "-c", "controller_manager"],
     )
 
+    autoserve_controller_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["autoserve_controller", "-c", "controller_manager"],
+    )
+
     delayed_joint_state_broadcaster_spawner = TimerAction(
         period=3.0, actions=[joint_state_broadcaster_spawner]
     )
 
     delayed_xarm7_traj_controller_spawner = TimerAction(
         period=3.0, actions=[xarm7_traj_controller_spawner]
+    )
+
+    delayed_autoserve_controller_spawner = TimerAction(
+        period=3.0, actions=[autoserve_controller_spawner]
     )
 
     navigation_launch = IncludeLaunchDescription(
@@ -318,9 +328,10 @@ def launch_setup(context, *args, **kwargs):
         delayed_spawner,
         delayed_joint_state_broadcaster_spawner,
         delayed_xarm7_traj_controller_spawner,
-        robot_moveit_common_launch,
-        navigation_launch,
-        rviz2_node
+        delayed_autoserve_controller_spawner
+        # robot_moveit_common_launch,
+        # navigation_launch,
+        # rviz2_node
     ]
 
 

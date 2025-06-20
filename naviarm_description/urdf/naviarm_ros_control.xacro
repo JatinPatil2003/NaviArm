@@ -1,0 +1,118 @@
+<?xml version="1.0"?>
+<robot name="naviarm" xmlns:xacro="http://ros.org/wiki/xacro">
+    <ros2_control name="naviarm" type="system">
+        <hardware>
+            <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+        </hardware>
+
+        <joint name="joint1">
+            <command_interface name="position">
+                <param name="min">-6.28319</param>
+                <param name="max">6.28319</param>
+            </command_interface>
+            <command_interface name="velocity">
+                <param name="min">-3.14</param>
+                <param name="max">3.14</param>
+            </command_interface>
+            <state_interface name="position" />
+            <state_interface name="velocity" />
+        </joint>
+
+        <joint name="joint2">
+            <command_interface name="position">
+                <param name="min">-2.059</param>
+                <param name="max">2.0944</param>
+            </command_interface>
+            <command_interface name="velocity">
+                <param name="min">-3.14</param>
+                <param name="max">3.14</param>
+            </command_interface>
+            <state_interface name="position" />
+            <state_interface name="velocity" />
+        </joint>
+
+        <joint name="joint3">
+            <command_interface name="position">
+                <param name="min">-6.28319</param>
+                <param name="max">6.28319</param>
+            </command_interface>
+            <command_interface name="velocity">
+                <param name="min">-3.14</param>
+                <param name="max">3.14</param>
+            </command_interface>
+            <state_interface name="position" />
+            <state_interface name="velocity" />
+        </joint>
+
+        <joint name="joint4">
+            <command_interface name="position">
+                <param name="min">-0.19198</param>
+                <param name="max">3.927</param>
+            </command_interface>
+            <command_interface name="velocity">
+                <param name="min">-3.14</param>
+                <param name="max">3.14</param>
+            </command_interface>
+            <state_interface name="position" />
+            <state_interface name="velocity" />
+        </joint>
+
+        <joint name="joint5">
+            <command_interface name="position">
+                <param name="min">-6.28319</param>
+                <param name="max">6.28319</param>
+            </command_interface>
+            <command_interface name="velocity">
+                <param name="min">-3.14</param>
+                <param name="max">3.14</param>
+            </command_interface>
+            <state_interface name="position" />
+            <state_interface name="velocity" />
+        </joint>
+
+        <joint name="joint6">
+            <command_interface name="position">
+                <param name="min">-1.69297</param>
+                <param name="max">3.14159</param>
+            </command_interface>
+            <command_interface name="velocity">
+                <param name="min">-3.14</param>
+                <param name="max">3.14</param>
+            </command_interface>
+            <state_interface name="position" />
+            <state_interface name="velocity" />
+        </joint>
+
+        <joint name="joint7">
+            <command_interface name="position">
+                <param name="min">-6.28319</param>
+                <param name="max">6.28319</param>
+            </command_interface>
+            <command_interface name="velocity">
+                <param name="min">-3.14</param>
+                <param name="max">3.14</param>
+            </command_interface>
+            <state_interface name="position" />
+            <state_interface name="velocity" />
+        </joint>
+
+        <joint name="base2leftw">
+            <command_interface name="velocity">
+                <param name="min">-10</param>
+                <param name="max">10</param>
+            </command_interface>
+            <state_interface name="position" />
+            <state_interface name="velocity" />
+        </joint>
+
+        <joint name="base2rightw">
+            <command_interface name="velocity">
+                <param name="min">-10</param>
+                <param name="max">10</param>
+            </command_interface>
+            <state_interface name="position" />
+            <state_interface name="velocity" />
+        </joint>
+
+    </ros2_control>
+</robot>
