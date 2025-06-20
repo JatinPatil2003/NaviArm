@@ -33,6 +33,7 @@ from uf_ros_lib.uf_robot_utils import (
 def launch_setup(context, *args, **kwargs):
     naviarm_gazebo_dir = get_package_share_directory("naviarm_gazebo")
     gazebo_ros_dir = get_package_share_directory("gazebo_ros")
+    autoserve_navigation_dir = get_package_share_directory("autoserve_navigation")
     autoserve_description_share = os.path.join(
         get_package_prefix("autoserve_description"), "share"
     )
@@ -176,7 +177,7 @@ def launch_setup(context, *args, **kwargs):
             "attach_xyz": attach_xyz,
             "attach_rpy": attach_rpy,
             "no_gui_ctrl": no_gui_ctrl,
-            "show_rviz": "true",
+            "show_rviz": "false",
             "use_sim_time": "true",
             "moveit_config_dump": moveit_config_dump,
         }.items(),
@@ -231,6 +232,25 @@ def launch_setup(context, *args, **kwargs):
         parameters=[{"use_sim_time": True}, robot_description],
     )
 
+    rviz_config_file = PathJoinSubstitution([FindPackageShare("naviarm_bringup"), 'rviz', 'naviarm.rviz'])
+    rviz2_node = Node(
+        package='rviz2',
+        executable='rviz2',
+        name='rviz2',
+        output='screen',
+        arguments=['-d', rviz_config_file],
+        parameters=[
+            {
+                'robot_description': moveit_config.to_dict()['robot_description'],
+                'robot_description_semantic': moveit_config.to_dict()['robot_description_semantic'],
+                'robot_description_kinematics': moveit_config.to_dict()['robot_description_kinematics'],
+                'robot_description_planning': moveit_config.to_dict()['robot_description_planning'],
+                'planning_pipelines': moveit_config.to_dict()['planning_pipelines'],
+                'use_sim_time': True
+            }
+        ]
+    )
+
     world = os.path.join(naviarm_gazebo_dir, "worlds", "cafe.world")
 
     start_gazebo_server = IncludeLaunchDescription(
@@ -280,6 +300,16 @@ def launch_setup(context, *args, **kwargs):
         period=3.0, actions=[xarm7_traj_controller_spawner]
     )
 
+    navigation_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(autoserve_navigation_dir, "launch", "navigation.launch.py")
+        ),
+        launch_arguments={
+            'sim': 'true',
+            'rviz': 'false',
+        }.items(),
+    )
+
     return [
         env_var,
         start_gazebo_server,
@@ -289,6 +319,8 @@ def launch_setup(context, *args, **kwargs):
         delayed_joint_state_broadcaster_spawner,
         delayed_xarm7_traj_controller_spawner,
         robot_moveit_common_launch,
+        navigation_launch,
+        rviz2_node
     ]
 
 
