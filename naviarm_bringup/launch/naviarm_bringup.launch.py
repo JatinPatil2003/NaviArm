@@ -232,32 +232,40 @@ def launch_setup(context, *args, **kwargs):
         parameters=[{"use_sim_time": True}, robot_description],
     )
 
-    rviz_config_file = PathJoinSubstitution([FindPackageShare("naviarm_bringup"), 'rviz', 'naviarm.rviz'])
+    rviz_config_file = PathJoinSubstitution(
+        [FindPackageShare("naviarm_bringup"), "rviz", "naviarm.rviz"]
+    )
     rviz2_node = Node(
-        package='rviz2',
-        executable='rviz2',
-        name='rviz2',
-        output='screen',
-        arguments=['-d', rviz_config_file],
+        package="rviz2",
+        executable="rviz2",
+        name="rviz2",
+        output="screen",
+        arguments=["-d", rviz_config_file],
         parameters=[
             {
-                'robot_description': moveit_config.to_dict()['robot_description'],
-                'robot_description_semantic': moveit_config.to_dict()['robot_description_semantic'],
-                'robot_description_kinematics': moveit_config.to_dict()['robot_description_kinematics'],
-                'robot_description_planning': moveit_config.to_dict()['robot_description_planning'],
-                'planning_pipelines': moveit_config.to_dict()['planning_pipelines'],
-                'use_sim_time': True
+                "robot_description": moveit_config.to_dict()["robot_description"],
+                "robot_description_semantic": moveit_config.to_dict()[
+                    "robot_description_semantic"
+                ],
+                "robot_description_kinematics": moveit_config.to_dict()[
+                    "robot_description_kinematics"
+                ],
+                "robot_description_planning": moveit_config.to_dict()[
+                    "robot_description_planning"
+                ],
+                "planning_pipelines": moveit_config.to_dict()["planning_pipelines"],
+                "use_sim_time": True,
             }
-        ]
+        ],
     )
 
-    world = os.path.join(naviarm_gazebo_dir, "worlds", "cafe.world")
+    world = os.path.join(naviarm_gazebo_dir, "worlds", "warehouse.world")
 
     start_gazebo_server = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(gazebo_ros_dir, "launch", "gzserver.launch.py"),
         ),
-        launch_arguments={"world": world, 'verbose': 'false'}.items(),
+        launch_arguments={"world": world, "verbose": "false"}.items(),
     )
 
     start_gazebo_client = IncludeLaunchDescription(
@@ -274,6 +282,12 @@ def launch_setup(context, *args, **kwargs):
             "naviarm",
             "-topic",
             "robot_description",
+            "-x",
+            "0.0",
+            "-y",
+            "0.0",
+            "-z",
+            "0.1",
         ],
         output="screen",
     )
@@ -292,11 +306,11 @@ def launch_setup(context, *args, **kwargs):
         arguments=["xarm7_traj_controller", "-c", "controller_manager"],
     )
 
-    autoserve_controller_spawner = Node(
-        package="controller_manager",
-        executable="spawner",
-        arguments=["autoserve_controller", "-c", "controller_manager"],
-    )
+    # autoserve_controller_spawner = Node(
+    #     package="controller_manager",
+    #     executable="spawner",
+    #     arguments=["autoserve_controller", "-c", "controller_manager"],
+    # )
 
     delayed_joint_state_broadcaster_spawner = TimerAction(
         period=3.0, actions=[joint_state_broadcaster_spawner]
@@ -306,17 +320,17 @@ def launch_setup(context, *args, **kwargs):
         period=3.0, actions=[xarm7_traj_controller_spawner]
     )
 
-    delayed_autoserve_controller_spawner = TimerAction(
-        period=3.0, actions=[autoserve_controller_spawner]
-    )
+    # delayed_autoserve_controller_spawner = TimerAction(
+    #     period=3.0, actions=[autoserve_controller_spawner]
+    # )
 
     navigation_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(autoserve_navigation_dir, "launch", "navigation.launch.py")
         ),
         launch_arguments={
-            'sim': 'true',
-            'rviz': 'false',
+            "sim": "true",
+            "rviz": "false",
         }.items(),
     )
 
@@ -328,10 +342,10 @@ def launch_setup(context, *args, **kwargs):
         delayed_spawner,
         delayed_joint_state_broadcaster_spawner,
         delayed_xarm7_traj_controller_spawner,
-        delayed_autoserve_controller_spawner
-        # robot_moveit_common_launch,
-        # navigation_launch,
-        # rviz2_node
+        # delayed_autoserve_controller_spawner
+        robot_moveit_common_launch,
+        navigation_launch,
+        rviz2_node,
     ]
 
 

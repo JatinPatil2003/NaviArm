@@ -96,7 +96,7 @@
             <state_interface name="velocity" />
         </joint>
 
-        <joint name="base2leftw">
+        <!-- <joint name="base2leftw">
             <command_interface name="velocity">
                 <param name="min">-10</param>
                 <param name="max">10</param>
@@ -112,7 +112,7 @@
             </command_interface>
             <state_interface name="position" />
             <state_interface name="velocity" />
-        </joint>
+        </joint> -->
 
     </ros2_control>
 </robot>
